@@ -1,0 +1,83 @@
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  font-size: 16px;
+  font-family: sans-serif;
+}
+
+.cardContainer {
+  max-width: 400px;
+  min-width: 300px;
+  width: 100%;
+  border: 2px solid black;
+  border-radius: 20px;
+  margin: 20px;
+  overflow: hidden;
+}
+
+.cardHeader {
+  background-color: aquamarine;
+  height: 120px;
+}
+
+.cardInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  text-align: center;
+  padding: 0 20px 20px;
+}
+
+.imgWrapper {
+  --img-size: 140px;
+  width: var(--img-size);
+  height: var(--img-size);
+  position: relative;
+  margin: calc(var(--img-size) / -2) auto 0;
+  border: 10px solid white;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.img {
+  display: block;
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  width: 100%;
+  height: inherit;
+  object-fit: cover;
+  object-position: top;
+}
+
+.initials {
+  /* width: 100%;
+  height: inherit; */
+  position: absolute;
+  /* left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0; */
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2.5rem;
+  font-weight: bold;
+  font-family: "Pacifico", cursive;
+  background-color: black;
+  color: white;
+}
+
+.actorName {
+  font-family: "Pacifico", cursive;
+  font-style: italic;
+  font-size: 2rem;
+}
+
+.cardText {
+  color: #777777;
+  /* opacity: 0.6; */
+}

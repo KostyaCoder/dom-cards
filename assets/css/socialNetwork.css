@@ -1,0 +1,11 @@
+.socialNetwork{
+  display: flex;
+  justify-content: space-evenly;
+  padding: 0 20px 20px;
+}
+
+.refWrapper{
+  --iconSize-- : 40px;
+  width: var(--iconSize--);
+  height: var(--iconSize--);
+}
