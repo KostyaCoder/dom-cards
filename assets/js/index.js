@@ -2,8 +2,10 @@
 
 const mapingHostIcon = new Map();
 mapingHostIcon.set("www.facebook.com", "assets/img/facebook.svg");
+mapingHostIcon.set("facebook.com", "assets/img/facebook.svg");
 mapingHostIcon.set("twitter.com", "assets/img/twitter.svg");
 mapingHostIcon.set("www.instagram.com", "assets/img/instagram.svg");
+mapingHostIcon.set("instagram.com", "assets/img/instagram.svg");
 
 const root = document.getElementById("root");
 
