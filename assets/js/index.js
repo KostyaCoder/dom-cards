@@ -1,87 +1,88 @@
 "use strict";
 
-const mapingHostIcon = new Map();
-mapingHostIcon.set("www.facebook.com", "assets/img/facebook.svg");
-mapingHostIcon.set("facebook.com", "assets/img/facebook.svg");
-mapingHostIcon.set("twitter.com", "assets/img/twitter.svg");
-mapingHostIcon.set("www.instagram.com", "assets/img/instagram.svg");
-mapingHostIcon.set("instagram.com", "assets/img/instagram.svg");
-
 const root = document.getElementById("root");
+const loading = createElement("div", { classNames: ["loading"] }, "Loading...");
+root.append(loading);
 
-const ActorsCards = responseData.map((actor) => createActorCard(actor));
-root.append(...ActorsCards);
+function fetchData() {
+  fetch("./data.json")
+    .then((resp) => resp.json())
+    .then((data) => createArticles(data))
+    .catch((err) => alert(err))
+    .finally(() => loading.remove());
+}
 
-function createActorCard(actor) {
-  const { firstName, lastName, profilePicture, aboutMe, contacts } = actor;
+setTimeout(fetchData, 3000);
 
-  //cardHeader
-  const cardHeader = createElement("div", { classNames: ["cardHeader"] });
+function createArticles(data) {
+  const mapingHostIcon = new Map();
+  mapingHostIcon.set("www.facebook.com", "assets/img/facebook.svg");
+  mapingHostIcon.set("facebook.com", "assets/img/facebook.svg");
+  mapingHostIcon.set("twitter.com", "assets/img/twitter.svg");
+  mapingHostIcon.set("www.instagram.com", "assets/img/instagram.svg");
+  mapingHostIcon.set("instagram.com", "assets/img/instagram.svg");
 
-  //cardInfo
-  const fullName =
-    firstName || lastName ? `${firstName} ${lastName}`.trim() : "Unknown Actor";
+  const ActorsCards = data.map((actor) => createActorCard(actor));
+  root.append(...ActorsCards);
 
-  const imgWrapper = createImage({ profilePicture, fullName });
+  function createActorCard(actor) {
+    const { firstName, lastName, profilePicture, aboutMe, contacts } = actor;
 
-  const actorName = createElement(
-    "h1",
-    { classNames: ["actorName"] },
-    fullName
-  );
+    //cardHeader
+    const cardHeader = createElement("div", { classNames: ["cardHeader"] });
 
-  const cardText = createElement(
-    "p",
-    { classNames: ["cardText"] },
-    aboutMe ? aboutMe : "Actor didn`t write about self"
-  );
+    //cardInfo
+    const fullName =
+      firstName || lastName
+        ? `${firstName} ${lastName}`.trim()
+        : "Unknown Actor";
 
-  const cardInfo = createElement(
-    "div",
-    { classNames: ["cardInfo"] },
-    imgWrapper,
-    actorName,
-    cardText
-  );
+    const imgWrapper = createImage({ profilePicture, fullName });
 
-  //socialNetwork
-  const socialNetwork = createSocialNetwork(contacts);
+    const actorName = createElement(
+      "h1",
+      { classNames: ["actorName"] },
+      fullName
+    );
 
-  //article
-  const card = createElement(
-    "article",
-    { classNames: ["cardContainer"] },
-    cardHeader,
-    cardInfo,
-    socialNetwork
-  );
+    const cardText = createElement(
+      "p",
+      { classNames: ["cardText"] },
+      aboutMe ? aboutMe : "Actor didn`t write about self"
+    );
 
-  return card;
+    const cardInfo = createElement(
+      "div",
+      { classNames: ["cardInfo"] },
+      imgWrapper,
+      actorName,
+      cardText
+    );
+
+    //socialNetwork
+    const socialNetwork = createSocialNetwork(contacts, mapingHostIcon);
+
+    //article
+    const card = createElement(
+      "article",
+      { classNames: ["cardContainer"] },
+      cardHeader,
+      cardInfo,
+      socialNetwork
+    );
+
+    return card;
+  }
 }
 
 function createImage({ profilePicture, fullName }) {
-  // const imgWrapper = document.createElement('div');
-  // imgWrapper.classList.add('imgWrapper');
-
-  // const img = document.createElement('img');
-  // img.classList.add('img');
-  // img.src = profilePicture;
-  // img.alt = fullName;
-  // img.addEventListener('error', handleImageError);
-
-  // const initials = document.createElement('p');
-  // initials.classList.add('initials');
-  // initials.textContent = generateInitials(fullName);
-
-  // imgWrapper.append(img, initials);
 
   const img = createElement("img", {
     classNames: ["img"],
     src: profilePicture,
     alt: fullName,
   });
-  // img.src = profilePicture;
-  // img.alt = fullName;
+
   img.addEventListener("error", handleImageError);
 
   const initials = createElement(
@@ -100,7 +101,7 @@ function createImage({ profilePicture, fullName }) {
   return imgWrapper;
 }
 
-function createSocialNetwork(contacts) {
+function createSocialNetwork(contacts, mapingHostIcon) {
   let socialLinks = [];
 
   for (const contact of contacts) {
